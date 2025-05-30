@@ -1,6 +1,18 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
 
-async function getProductById(id: string) {
+interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  price: string;
+  images: { secure_url: string }[];
+  video?: { secure_url: string };
+  category?: { name: string };
+}
+
+async function getProductById(id: string): Promise<Product | null> {
   try {
     const res = await fetch(
       "https://glore-bd-backend-node-mongo.vercel.app/api/product",
@@ -9,7 +21,7 @@ async function getProductById(id: string) {
     const data = await res.json();
     if (!res.ok || !data.data) return null;
 
-    const product = data.data.find((p: any) => p._id === id);
+    const product = data.data.find((p: Product) => p._id === id);
     return product || null;
   } catch (error) {
     console.error("Error fetching product list:", error);
@@ -17,6 +29,7 @@ async function getProductById(id: string) {
   }
 }
 
+// ✅ SEO Meta
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const product = await getProductById(params.id);
   if (!product) return { title: "Product Not Found" };
@@ -45,24 +58,27 @@ export default async function ProductDetailPage({
       <div className="max-w-7xl mx-auto">
         {/* Back Link */}
         <div className="mb-8">
-          <a
+          <Link
             href="/Products"
             className="text-indigo-600 text-sm hover:underline transition"
           >
             ← Back to Products
-          </a>
+          </Link>
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden md:flex md:gap-10 md:p-8">
           {/* Image/Video */}
           <div className="md:w-1/2 w-full">
             <div className="relative w-full aspect-square overflow-hidden rounded-lg border">
-              <img
-                src={product.images?.[0]?.secure_url}
+              <Image
+                src={product.images?.[0]?.secure_url || "/placeholder.jpg"}
                 alt={product.name}
-                className="object-cover w-full h-full transition-transform hover:scale-105 duration-300"
+                width={600}
+                height={600}
+                className="object-cover w-full h-full transition-transform hover:scale-105 duration-300 rounded-lg"
               />
             </div>
+
             {product.video?.secure_url && (
               <video
                 controls
@@ -78,12 +94,15 @@ export default async function ProductDetailPage({
               <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
                 {product.name}
               </h1>
+
               <div className="text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 inline-block px-3 py-1 rounded-full uppercase tracking-wide font-medium">
                 {product.category?.name || "Uncategorized"}
               </div>
+
               <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed">
                 {product.description}
               </p>
+
               <div className="text-3xl font-bold text-indigo-600 mt-4">
                 ৳ {product.price}
               </div>

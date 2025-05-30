@@ -2,9 +2,20 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+
+// ✅ Define product interface
+interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  price: string;
+  images?: { secure_url: string }[];
+  category?: { name: string };
+}
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,7 +33,7 @@ export default function ProductsPage() {
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
-        setLoading(false); // ✅ Stop loader
+        setLoading(false);
       }
     };
 
@@ -53,16 +64,16 @@ export default function ProductsPage() {
                   className="group"
                 >
                   <div className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col">
-                    {/* Image */}
-                    <div className="aspect-square overflow-hidden">
-                      <img
-                        src={product.images?.[0]?.secure_url}
+                    {/* ✅ Use next/image instead of <img> */}
+                    <div className="aspect-square overflow-hidden relative">
+                      <Image
+                        src={product.images?.[0]?.secure_url || "/placeholder.jpg"}
                         alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
 
-                    {/* Details */}
                     <div className="p-4 flex flex-col justify-between flex-grow">
                       <h2 className="text-lg font-semibold text-gray-900 truncate">
                         {product.name}

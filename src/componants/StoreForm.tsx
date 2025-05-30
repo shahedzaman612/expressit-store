@@ -186,7 +186,7 @@ export default function StoreForm() {
 
   // --- Input Styling Classes ---
   const getInputClass = (error?: string, success?: boolean) => {
-    let Suffix = "block w-full rounded-md shadow-sm sm:text-sm p-2.5 ";
+    const Suffix = "block w-full rounded-md shadow-sm sm:text-sm p-2.5 ";
     if (error)
       return (
         Suffix + "border-red-500 border focus:border-red-500 focus:ring-red-500"
