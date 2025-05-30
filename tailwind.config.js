@@ -1,13 +1,12 @@
-/** @type {import('tailwindcss').Config} */
+// tailwind.config.js
 module.exports = {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}", // Adjust if your structure is different
-  ],
+  darkMode: "class", // ← REQUIRED for toggle to work
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {},
   },
   plugins: [
-    require("@tailwindcss/line-clamp"), // Optional plugins
-    require("@tailwindcss/forms"), // Optional nice form styling
+    require("@tailwindcss/line-clamp"),
+    require("@tailwindcss/forms"),
   ],
 };

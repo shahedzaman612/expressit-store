@@ -30,8 +30,7 @@ body {
     @apply bg-[color:var(--background)] text-[color:var(--foreground)] antialiased;
   }
 
-  code,
-  pre {
+  code, pre {
     font-family: var(--font-mono);
   }
 
