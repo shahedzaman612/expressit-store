@@ -60,7 +60,6 @@ export default async function ProductDetailPage({
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 px-4 py-12 md:py-20">
       <div className="max-w-7xl mx-auto">
-        {/* Back Link */}
         <div className="mb-8">
           <Link
             href="/Products"
@@ -71,7 +70,6 @@ export default async function ProductDetailPage({
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden md:flex md:gap-10 md:p-8">
-          {/* Image/Video */}
           <div className="md:w-1/2 w-full">
             <div className="relative w-full aspect-square overflow-hidden rounded-lg border">
               <Image
@@ -92,26 +90,21 @@ export default async function ProductDetailPage({
             )}
           </div>
 
-          {/* Info */}
           <div className="md:w-1/2 w-full flex flex-col justify-between mt-8 md:mt-0">
             <div className="space-y-4">
               <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
                 {product.name}
               </h1>
-
               <div className="text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 inline-block px-3 py-1 rounded-full uppercase tracking-wide font-medium">
                 {product.category?.name || "Uncategorized"}
               </div>
-
               <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed">
                 {product.description}
               </p>
-
               <div className="text-3xl font-bold text-indigo-600 mt-4">
                 ৳ {product.price}
               </div>
             </div>
-
             <div className="mt-8">
               <button className="w-full md:w-auto px-6 py-3 text-sm font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 shadow transition">
                 Add to Cart
