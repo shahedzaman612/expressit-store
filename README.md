@@ -1,36 +1,140 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 ExpressIT Store
 
-## Getting Started
+A modern, responsive eCommerce platform built with **Next.js 15**, **React 19**, **TypeScript**, and **Tailwind CSS** — featuring real-time product listings, dynamic product detail pages, domain validation, and store registration.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- ✅ Dynamic Routing (Next.js App Router)
+- ✅ SSR with `getProductById()`
+- ✅ Domain name validation via API
+- ✅ Store registration form with client-side validation
+- ✅ Tailwind CSS styling
+- ✅ TypeScript typesafety
+- ✅ Skeleton loader on product page
+- ✅ Dark mode toggle (optional)
+- ✅ Deployed to Netlify
+
+---
+
+## 📦 Tech Stack
+
+| Tech            | Description                      |
+|----------------|----------------------------------|
+| Next.js 15     | Full-stack React framework       |
+| React 19       | Modern React with latest features|
+| TypeScript     | Type-safe JavaScript             |
+| Tailwind CSS 4 | Utility-first CSS                |
+| Netlify        | Hosting & CI/CD                  |
+
+---
+
+## 🛠️ Installation
 
 ```bash
+# 1. Clone the repo
+git clone https://github.com/shahedzaman612/expressit-store.git
+cd expressit-store
+
+# 2. Install dependencies
+npm install
+
+# 3. Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🏗️ Build for Production
 
-## Learn More
+```bash
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧹 Clean Build (for PowerShell / Windows)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```powershell
+Remove-Item -Recurse -Force .next, node_modules, package-lock.json
+npm install
+npm run build
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🌐 Deployment (Netlify)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### ✅ Settings
+
+| Setting         | Value          |
+|----------------|----------------|
+| Build Command  | `npm run build` |
+| Publish Dir    | `.next`         |
+| Base Directory | *(leave empty)* |
+
+Make sure to add `@netlify/next` plugin to your `package.json` if needed.
+
+---
+
+## 🔧 Project Structure
+
+```
+/src
+  ├── app
+  │   ├── Products
+  │   │   ├── page.tsx       # Product listing
+  │   │   └── [id]/page.tsx  # Product detail page
+  │   ├── layout.tsx
+  │   └── page.tsx
+  ├── components
+  │   └── StoreForm.tsx      # Domain & store registration form
+  ├── styles
+      └── globals.css
+```
+
+---
+
+## ✅ Environment
+
+No `.env` required — external APIs used:
+
+- Product API: `https://glore-bd-backend-node-mongo.vercel.app/api/product`
+- Domain Checker: `https://interview-task-green.vercel.app/task/domains/check/{subdomain}`
+- Store Creation: `https://interview-task-green.vercel.app/task/stores/create`
+
+---
+
+## 🧪 Validation Rules
+
+- **Store Name**: Minimum 3 characters
+- **Email**: Must be valid format
+- **Domain**: Real-time validation
+- **Currency / Category**: Dropdown
+
+---
+
+## 📷 Screenshots
+
+| Product Page | Store Form |
+|--------------|------------|
+| ✅ SSR + Image | ✅ Validations + UX |
+| ![Products](./screenshots/products.png) | ![Store](./screenshots/store-form.png) |
+
+---
+
+## 🙋‍♂️ Author
+
+**Md. Shahed Zaman**  
+Frontend Developer @ Express IT BD  
+GitHub: [@shahedzaman612](https://github.com/shahedzaman612)
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License.
