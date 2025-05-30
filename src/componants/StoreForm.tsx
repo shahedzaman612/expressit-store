@@ -11,7 +11,6 @@ import {
   CurrencyDollarIcon,
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
-
 type DomainStatus = "idle" | "checking" | "available" | "taken";
 
 export default function StoreForm() {
@@ -94,8 +93,11 @@ export default function StoreForm() {
         const response = await fetch(
           `https://interview-task-green.vercel.app/task/domains/check/${debouncedDomain}.expressitbd.com`
         );
-        const data = await response.json();
-        if (data.taken) {
+        const result = await response.json();
+
+        const taken = result?.data?.taken;
+
+        if (taken) {
           setDomainStatus("taken");
           setDomainMessage("Not Available Domain. Re-enter!");
         } else {
@@ -119,27 +121,20 @@ export default function StoreForm() {
     const isDomainReady =
       domainStatus === "available" && debouncedDomain.trim().length > 0;
 
-    if (
-      !isDomainReady &&
-      debouncedDomain.trim().length > 0 &&
-      domainStatus !== "checking"
-    ) {
-    } else if (!isDomainReady && debouncedDomain.trim().length === 0) {
-      setDomainStatus("taken");
-      setDomainMessage("Domain cannot be empty.");
-    }
-
     if (!isStoreNameValid || !isEmailValid || !isDomainReady) return;
 
-    setIsSubmitting(true);
     const storeData = {
       name: storeName,
-      currency: currency,
+      currency,
       country: location,
       domain: debouncedDomain,
-      category: category,
-      email: email,
+      category,
+      email,
     };
+
+    console.log("Submitting storeData:", storeData);
+
+    setIsSubmitting(true);
     try {
       const response = await fetch(
         "https://interview-task-green.vercel.app/task/stores/create",
@@ -149,10 +144,18 @@ export default function StoreForm() {
           body: JSON.stringify(storeData),
         }
       );
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to create store.");
+        let errorMessage = "Failed to create store.";
+        try {
+          const errorData = await response.json();
+          if (errorData?.message) errorMessage = errorData.message;
+        } catch {
+          errorMessage = `Store creation failed with status ${response.status}`;
+        }
+        throw new Error(errorMessage);
       }
+
       alert("Store created successfully! Redirecting...");
       router.push("/Products");
     } catch (error) {
@@ -213,7 +216,9 @@ export default function StoreForm() {
             onChange={handleStoreNameChange}
             onBlur={() => validateStoreName(storeName)}
             placeholder="How'd you like to call your store?"
-            className={getInputClass(storeNameError)}
+            className={`${getInputClass(
+              storeNameError
+            )} text-gray-900 dark:text-black`}
             required
             minLength={3}
           />
@@ -397,7 +402,9 @@ export default function StoreForm() {
             onChange={handleEmailChange}
             onBlur={handleEmailBlur}
             placeholder="you@example.com"
-            className={getInputClass(emailError)}
+            className={`${getInputClass(
+              storeNameError
+            )} text-gray-900 dark:text-black`}
             required
           />
           {emailError && (
