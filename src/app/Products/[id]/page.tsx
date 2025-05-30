@@ -20,16 +20,19 @@ async function getProductById(id: string): Promise<Product | null> {
     );
     const data = await res.json();
     if (!res.ok || !data.data) return null;
-
-    const product = data.data.find((p: Product) => p._id === id);
-    return product || null;
-  } catch (error) {
-    console.error("Error fetching product list:", error);
+    return data.data.find((p: Product) => p._id === id) || null;
+  } catch (err) {
+    console.error(err);
     return null;
   }
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+// ✅ Optional: Generate SEO metadata for each product
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}) {
   const product = await getProductById(params.id);
   if (!product) return { title: "Product Not Found" };
 
@@ -75,7 +78,6 @@ export default async function ProductDetailPage({
                 className="object-cover w-full h-full transition-transform hover:scale-105 duration-300 rounded-lg"
               />
             </div>
-
             {product.video?.secure_url && (
               <video
                 controls
@@ -90,20 +92,16 @@ export default async function ProductDetailPage({
               <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
                 {product.name}
               </h1>
-
               <div className="text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 inline-block px-3 py-1 rounded-full uppercase tracking-wide font-medium">
                 {product.category?.name || "Uncategorized"}
               </div>
-
               <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed">
                 {product.description}
               </p>
-
               <div className="text-3xl font-bold text-indigo-600 mt-4">
                 ৳ {product.price}
               </div>
             </div>
-
             <div className="mt-8">
               <button className="w-full md:w-auto px-6 py-3 text-sm font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 shadow transition">
                 Add to Cart
