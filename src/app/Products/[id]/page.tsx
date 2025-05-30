@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import type { PageProps } from "next";
 
 interface Product {
   _id: string;
@@ -30,7 +31,7 @@ async function getProductById(id: string): Promise<Product | null> {
 }
 
 // ✅ SEO Meta
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({ params }: PageProps<{ id: string }>) {
   const product = await getProductById(params.id);
   if (!product) return { title: "Product Not Found" };
 
@@ -47,9 +48,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 
 export default async function ProductDetailPage({
   params,
-}: {
-  params: { id: string };
-}) {
+}: PageProps<{ id: string }>) {
   const product = await getProductById(params.id);
   if (!product) return notFound();
 
